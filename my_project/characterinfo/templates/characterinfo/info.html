@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+
+
+{% block body %}
+<br/>
+{{message}}
+<br/>
+
+<style>
+    td{
+    border-right: 1px solid black;
+    }
+    th{
+    border-right: 1px solid black;
+    }
+    table{
+    border: 1px solid black;
+    }
+    .center-block {
+    float: none !important
+    }
+    .seperator{
+    border-bottom:1px solid blue;
+    background-color: lightblue;
+    }
+</style>
+
+
+{% if user.is_authenticated %}
+<table class="table" style="width: 300px; margin-left:20px">
+    <tr>
+        <th class="seperator">Character info</th>
+        <td class="seperator"></td>
+    </tr>
+    <tr>
+        <th>Username</th>
+        <td>{{character.user}}</td>
+    </tr>
+    <tr>
+         <th>Job</th>
+        <td>{{character.job}}</td>
+    </tr>
+    <tr>
+        <th>Level</th>
+        <td>{{character.level}}</td>
+    </tr>
+    <tr>
+        <th>HP</th>
+        <td>{{character.hp}}</td>
+    </tr>
+    <tr>
+        <th>MP</th>
+        <td>{{character.mp}}</td>
+    </tr>
+    <tr>
+        <th>pAtt</th>
+        <td>{{character.physA}}</td>
+    </tr>
+     <tr>
+        <th>pDef</th>
+        <td>{{character.physD}}</td>
+    </tr>
+     <tr>
+        <th>mAtt</th>
+        <td>{{character.magA}}</td>
+    </tr>
+     <tr>
+        <th>mDef</th>
+        <td>{{character.magD}}</td>
+    </tr>
+    <tr>
+        <th class="seperator">Equipped Items</th>
+        <td class="seperator"></td>
+    </tr>
+    <tr>
+        <th>Weapon</th>
+        <td>{{character.mainE}}</td>
+    </tr>
+     <tr>
+        <th>OffHand</th>
+        <td>{{character.offE}}</td>
+    </tr>
+     <tr>
+        <th>Armor</th>
+        <td>{{character.armorE}}</td>
+    </tr>
+     <tr>
+        <th>Accesory</th>
+        <td>{{character.accE}}</td>
+    </tr>
+    <tr>
+        <th class="seperator">Positionals</th>
+        <td class="seperator"></td>
+    </tr>
+    <tr>
+        <th>Map Seed</th>
+        <td>{{position.mapseed}}</td>
+    </tr>
+    <tr>
+        <th>posX</th>
+        <td>{{position.posx}}</td>
+    </tr>
+    <tr>
+        <th>posY</th>
+        <td>{{position.posy}}</td>
+    </tr>
+</table>
+
+
+{% else %}
+  <p>Please login or register</p>
+{% endif %}
+
+
+
+{% endblock %}

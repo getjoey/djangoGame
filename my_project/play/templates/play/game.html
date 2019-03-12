@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<div style="text-align:center">
+<canvas id="myCanvas" width="1024" height="768" style="border:1px solid black;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+</div>
+
+
+
+<script>
+//map display
+var map = {{display.displayedMap}}
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+
+function draw(){
+
+    //clear
+    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+
+    //redraw
+    for (var x =0; x<map.length;x++)
+    {
+        for (var y =0; y<map[x].length;y++)
+        {
+            if(map[x][y] == 0)
+            {
+
+            }
+            if(map[x][y] == 1)
+            {
+                ctx.fillStyle = "black";
+                ctx.fillRect(x*32, y*32, 32, 32);
+            }
+            if(map[x][y] == 2)
+            {
+                ctx.fillStyle = "red";
+                ctx.fillRect(x*32, y*32, 32, 32);
+            }
+        }
+    }
+}
+draw()
+
+
+
+
+</script>
+{% csrf_token %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<meta name="csrf-token" content="{{ csrf_token }}">
+<script>
+var xx = 0
+var yy = 0
+
+$(document).on('keydown',function(e)
+{
+        if(e.keyCode == 37 || e.keyCode == 65) //left
+        {
+          xx = -1;
+        }
+        if(e.keyCode == 38 || e.keyCode == 87) //up
+        {
+           yy = -1;
+        }
+        if(e.keyCode == 39 || e.keyCode == 68) //right
+        {
+           xx = 1;
+        }
+        if(e.keyCode == 40 || e.keyCode == 83) //down
+        {
+           yy= 1;
+        }
+
+});
+function update()
+{
+    var d = new Date();
+    var time = d.getTime();
+    $.post(
+            "{% url 'play:update' %}",
+            {
+            csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+              x: xx,
+              y: yy,
+              time: time
+            },
+            function(data){
+                 var obj = JSON.parse(data);
+                 map = obj.display;
+                 draw();
+            });
+}
+
+setInterval(update,200);
+
+$(document).on('keyup',function(e)
+{
+        if(e.keyCode == 37 || e.keyCode == 65) //left
+        {
+          xx = 0;
+        }
+        if(e.keyCode == 38 || e.keyCode == 87) //up
+        {
+           yy = 0;
+        }
+        if(e.keyCode == 39 || e.keyCode == 68) //right
+        {
+           xx = 0;
+        }
+        if(e.keyCode == 40 || e.keyCode == 83) //down
+        {
+           yy= 0;
+        }
+});
+
+
+
+</script>
+{% endblock %}
